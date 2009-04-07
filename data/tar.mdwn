@@ -1,0 +1,41 @@
+Manages tar archives
+
+A tar archive is a file collection represented by a single "tar" file. They're
+used for backups and distributing collections of files. The files comprising a
+software package are often offered for download as `tar` archives.
+
+## Creating Archives
+Note: In all of the following examples the tar archive being created will be
+overwritten if it already exists.
+
+* `tar -cvf file.tar dir/` - Create a tar archive called `file.tar` that
+contains the contents of directory `dir/`.
+* `tar -cvf ~/pictures.tar ~/Photos/*.png` - Create a tar archive called
+`pictures.tar` in the user's home directory containing the .png files in the
+their `~/Photos` directory.
+* `tar -cjvf file.tar.bz2 dir/` - Creates a tar archive called `file.tar.bz2`
+which contains `dir/` and is compressed with `bzip2`.
+* `tar -czvf file.tar.gz dir/` - Creates a tar archive called `file.tar.gz`
+which contains `dir/` and is compressed with `gzip`.
+
+## Extracting Archives
+* `tar -xzvf file.tar.gz` - Extract the contents of gzipped tar archive
+`file.tar.gz` into the current directory. In this example the tar archive has
+been compressed with `gzip`, so we use the `-z` switch to indicate that it
+should be uncompressed with `gzip` before extracting its contents.
+* `tar -xjvf file.tar.bz2` - As above, but this time the archive has been
+compressed with `bzip2`, so the `-j` switch is used to uncompress it.
+
+## Listing Archives
+* `tar -tvf file.tar` - Lists the files and directories contained within
+`file.tar`.
+* `tar -tzvf file.tar.gz` - Lists the files and directories contained within
+the gzip'd `file.tar.gz`.
+
+## Adding to Archives
+Note: `tar` cannot update compressed archives, so in this case you'll need to
+extract the archive, add the new files to the same directory, then create a
+new archive.
+ 
+* `tar -rvf file.tar file2` - Appends `file2` to the tar archive `file.tar`,
+i.e. add a new file to an existing archive.

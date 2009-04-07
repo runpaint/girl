@@ -1,0 +1,16 @@
+Update a file's timestamp, or create an new, empty file.
+
+Note: In all of the following examples if the file does not already exist it
+is created as a new, empty file.
+
+* `touch file` - Update the access and modification timestamps of `file` to
+the current time.
+* `touch -r file file2` - Sets `file2`'s timestamps to those of `file`.
+* `touch -m file` - Update `file`'s modification timestamp to the current
+time, leaving its access timestamp alone.
+* `touch -a file` - Update `file`'s access timestamp to the current
+time, leaving its modification timestamp alone.
+* `touch -t 200602030910.02 file.tar` - Sets the timestamps of `file.tar` to
+2006-02-03 09:10:02. Note: the seconds portion ('.02') and the first two
+digits of the year ('20') can be ommitted, so `touch -t 0602030910 file.tar`
+has the same effect.

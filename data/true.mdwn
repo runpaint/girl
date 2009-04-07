@@ -1,0 +1,4 @@
+Exits with a successful exit code.
+
+* `true` - Literally does nothing except exit with a successful status code.
+* `true --arg -h` - As above; command line arguments are ignored.
