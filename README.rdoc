@@ -1,0 +1,24 @@
+= girl
+
+* http://getgirl.org/
+
+== DESCRIPTION:
+
+The younger, prettier alternative to `man`.
+
+== FEATURES/PROBLEMS:
+
+== SYNOPSIS:
+
+== REQUIREMENTS:
+
+== INSTALL:
+
+* sudo gem install girl
+
+== LICENSE:
+
+See the LICENSE file distributed with this software.
+
+Copyright (c) 2009 Run Paint Run Run <runrun@runpaint.org>
+
