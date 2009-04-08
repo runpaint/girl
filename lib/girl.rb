@@ -48,12 +48,25 @@ module GirlDoc
   end
   class Formatter
     class ANSI
+      require 'rubygems'
+      require 'text/highlight'
       def initialize(pearl)
         @pearl = pearl
       end
       def format
-        @pearl.text
-      end  
+        raw = @pearl.text
+        hl = Text::ANSIHighlighter.new
+        String.highlighter = hl
+        raw.gsub!(/(`([^`]+)`)/) do |m| 
+          m[1..-2].bold
+        end
+        raw.gsub!(/_([^\_ ]+)_/) {|m| m[1..-2].magenta}
+        raw.gsub!(/\*([^\* ]+)\*/) {|m| m[1..-2].bold}
+        raw.gsub!(/^#+ (.+)/) do |h| 
+          h.sub(/^#+\s+/,'').upcase.bold
+        end
+        raw
+      end
     end  
     class PlainText
       def initialize(pearl)
@@ -80,6 +93,8 @@ module GirlDoc
     def render
       require 'rubygems'
       require 'terminal/size'
+      # FIXME: This is meaningless; we no longer have a way to identify the
+      # pager before its actually used.
       fclass = @pager_name == 'less' ? 'PlainText' : 'ANSI'
       formatter = Formatter.const_get(fclass).new( @pearl )
       terminal = TerminalSize.new
@@ -108,7 +123,8 @@ module GirlDoc
       unless @use_stdout
         # FIXME: If ENV['PAGER'] is set to some unusable value, e.g. whitespace,
         # we crash when trying to write to the pipe. Find out why IO.popen allows this.
-        for pager in [ ENV['PAGER'], PAGERS ].compact.uniq
+        pagers =  [ENV['PAGER']] + PAGERS 
+        for pager in pagers.compact.uniq
           return IO.popen(pager, "w") rescue nil
         end
         @use_stdout = true
