@@ -32,7 +32,7 @@ module GirlDoc
     def initialize(name)
       raise ArgumentError unless name.kind_of? String
       @name = name.downcase.strip
-      raise ArgumentError unless @name.match(/^[a-zA-Z0-9_-]{2,}$/)
+      raise ArgumentError unless @name.match(/^[a-z0-9]{2,}$/)
     end  
   end  
 end  
