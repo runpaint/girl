@@ -1,4 +1,6 @@
 module GirlDoc
+  class PearlNotFound < StandardError
+  end  
   VERSION = '0.0.1'
   class Girl
     attr_reader :pearls, :formatted
@@ -63,13 +65,17 @@ module GirlDoc
     end  
   end
   class Renderer
+    def initialize( pearl )
+      @pearl = pearl
+      raise PearlNotFound unless @pearl.exists?
+    end  
   end    
-  class Renderer::Pager 
+  class Renderer::Pager < Renderer 
     PAGERS = %w{pager most more less}
     @use_stdout = true
     
     def initialize( pearl )
-      @pearl = pearl
+      super pearl
     end
     def render
       require 'rubygems'
