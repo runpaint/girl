@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/lib/girl'
 
 # Generate all the Rake tasks
 # Run 'rake -T' to see list of generated tasks (from gem root directory)
-$hoe = Hoe.new('girl', Girl::VERSION) do |p|
+$hoe = Hoe.new('girl', GirlDoc::VERSION) do |p|
   p.developer('Run Paint Run Run', 'runrun@runpaint.org')
   p.changes              = p.paragraphs_of("CHANGELOG", 0..1).join("\n\n")
   p.rubyforge_name       = p.name # TODO this is default value

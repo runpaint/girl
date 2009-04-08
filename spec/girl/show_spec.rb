@@ -14,7 +14,7 @@ describe "Girl.show" do
       girl = Girl.new(args.flatten)
       girl.show
       girl.pearls.each do |pearl|
-        $stdout.string.should match(/#{pearl}/)
+        $stdout.string.should match(/#{pearl.name}/)
       end
       $stdout.string.length > 100
       end    
