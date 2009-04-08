@@ -20,8 +20,5 @@ describe "Girl.show" do
       end    
     $stdout = @stdout_orig
   end 
-  it "should raise a NameError if the pearl doesn't exist" do
-    girl = Girl.new('xxxz')
-    lambda{girl.show}.should raise_error(NameError)
-  end  
+  it "should do something if the pearl doesn't exist"    
 end

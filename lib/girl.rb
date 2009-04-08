@@ -12,11 +12,7 @@ module GirlDoc
     end  
     def show
       @pearls.each do |pearl|
-        file = File.expand_path("~/.girl/pearls/#{pearl.name}.mdwn")
-          raise NameError unless File.exists? file
-          File.open(file, 'r') do |f|
-            puts f.read
-          end  
+        puts pearl.text if pearl.exists?
       end  
     end
   end
@@ -33,6 +29,16 @@ module GirlDoc
       raise ArgumentError unless name.kind_of? String
       @name = name.downcase.strip
       raise ArgumentError unless @name.match(/^[a-z0-9]{2,}$/)
+    end
+    def exists?
+      File.exists? self.filename
+    end  
+    def filename
+      @filename ||= File.expand_path("~/.girl/pearls/#{self.name}.mdwn")
+    end
+    def text
+      return nil unless self.exists?
+      File.open(self.filename, 'r') {|f| return f.read}
     end  
   end  
 end  
