@@ -3,16 +3,9 @@ module GirlDoc
   class Girl
     attr_reader :pearls
     def initialize(*args)
-      @pearls = args.flatten.compact.map do |a| 
-        raise ArgumentError unless a.kind_of? String
-        Pearl.new(a.downcase.strip)
-      end
-      @pearls.delete_if{|p| p.name == ''}
-      @pearls.uniq!
+      @pearls = args.flatten.compact.delete_if{|a| a =~ /^\s*$/}
+      @pearls.map!{|a| Pearl.new(a)}.uniq!
       raise ArgumentError unless @pearls.size > 0
-      raise ArgumentError unless @pearls.all?{
-        |p| p.name.match(/^[a-zA-Z0-9_-]+$/)
-      }
     end
     def pearl
       @pearls.first
@@ -37,7 +30,9 @@ module GirlDoc
       self.name.eql?(obj.name)
     end  
     def initialize(name)
-      @name = name
+      raise ArgumentError unless name.kind_of? String
+      @name = name.downcase.strip
+      raise ArgumentError unless @name.match(/^[a-zA-Z0-9_-]{2,}$/)
     end  
   end  
 end  
