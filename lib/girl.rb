@@ -1,3 +1,12 @@
+class File
+  def self.whereis(command)
+    ENV['PATH'].split(/:/).each do |path|
+      path << "/#{command}"
+      return path if File.exists? path
+    end
+    nil
+  end
+end
 module GirlDoc
   class PearlNotFound < StandardError
   end  
@@ -93,20 +102,33 @@ module GirlDoc
     def render
       require 'rubygems'
       require 'terminal/size'
-      # FIXME: This is meaningless; we no longer have a way to identify the
-      # pager before its actually used.
-      fclass = @pager_name == 'less' ? 'PlainText' : 'ANSI'
-      formatter = Formatter.const_get(fclass).new( @pearl )
-      terminal = TerminalSize.new
-      ftext = formatter.format
-      lines = ftext.split("\n").size
-      @page =  lines < terminal.rows ? false : true
+      require 'pathname'
       @use_stdout = false
-      page { puts ftext }
+      terminal = TerminalSize.new
+      @page = @pearl.text.split("\n").size < terminal.rows ? false : true
+      page do 
+        fclass = self.pager_name == 'less' ? 'PlainText' : 'ANSI'
+        formatter = Formatter.const_get(fclass).new( @pearl )
+        puts formatter.format
+      end  
     end
     # Note: The following two methods were derived from code in the
     # rdoc/ri/ri_display.rb file distributed as part of Ruby 1.8. This code is
     # licensed under the GPL, as is this library. 
+    def setup_pager
+      unless @use_stdout
+        # FIXME: If ENV['PAGER'] is set to some unusable value, e.g. whitespace,
+        # we crash when trying to write to the pipe. Find out why IO.popen allows this.
+        pagers =  [ENV['PAGER']] + PAGERS 
+        for pager in pagers.compact.uniq
+          @pager_name = pager
+          return IO.popen(pager, "w") rescue nil
+        end
+        @use_stdout = true
+        @pager_name = nil
+        nil
+      end
+    end
     def page
       return yield unless @page && pager = setup_pager
       begin
@@ -119,18 +141,19 @@ module GirlDoc
         pager.close
       end
     end 
-    def setup_pager
-      unless @use_stdout
-        # FIXME: If ENV['PAGER'] is set to some unusable value, e.g. whitespace,
-        # we crash when trying to write to the pipe. Find out why IO.popen allows this.
-        pagers =  [ENV['PAGER']] + PAGERS 
-        for pager in pagers.compact.uniq
-          return IO.popen(pager, "w") rescue nil
-        end
-        @use_stdout = true
-        nil
-      end
-    end
+    #def pick_pager
+    #  pagers =  [ENV['PAGER']] + PAGERS 
+    #  for pager in pagers.compact.uniq
+    #    @pager_name = pager
+    #    return @pager = IO.popen(pager, "w") rescue nil
+    #  end
+    #  @pager_name = nil
+    #  nil
+    #end  
+    def pager_name
+      File.basename(Pathname.new(File.whereis @pager_name).realpath)
+    end  
   end  
-end  
+end
 
+    
