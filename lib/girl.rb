@@ -48,7 +48,7 @@ module GirlDoc
       File.exists? self.filename
     end  
     def filename
-      @filename ||= File.expand_path("~/.girl/pearls/#{self.name}.mdwn")
+      @filename ||= File.join(DataDir.new.path, "#{self.name}.mdwn")
     end
     def text
       return nil unless self.exists?
@@ -140,6 +140,18 @@ module GirlDoc
         end
         @use_stdout = true
         nil
+    end
+  end  
+  class DataDir
+    USER_DATA_DIR = File.expand_path( '~/.girl' )
+    USER_PEARLS_DIR = File.join(USER_DATA_DIR, "pearls/")
+    REPO_URL = 'git://github.com/runpaint/girl.git'
+    def path
+      return USER_PEARLS_DIR if File.directory? USER_PEARLS_DIR
+      self.git_clone ? USER_PEARLS_DIR : nil
+    end
+    def git_clone
+      system("git clone #{REPO_URL} #{USER_DATA_DIR}")
     end
   end  
 end
