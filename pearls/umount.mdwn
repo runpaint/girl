@@ -1,0 +1,19 @@
+Detaches the given mountpoint from the filesystem.
+
+* `umount /media/usbstick` - Un-mounts the device attached to
+`/media/usbstick`.
+
+`umount` is the converse of the `mount` command. Where `mount` makes the
+filesystem of a device accessible from a given mount point, `umount` makes it
+inaccessible. Any pending operations on the filesystem are completed, and its
+contents are written to the associated storage device. In the case of
+removable storage, un-mounting the filesystem allows the device to be
+unplugged from the computer.
+
+A device is said to be 'busy' if an application is using its filesystem. Such
+devices cannot be un-mounted. For example, if `vlc` is playing a video file
+from a CD-ROM drive, the drive cannot be un-mounted until playback is stopped.
+A common gotcha is that devices are considered busy even if an application
+merely has its working directory on their filesystem. So if you `cd
+/media/usbstick` then `umount /media/usbstick`, the second command will fail
+because your shell uses the mountpoint as its working directory.
