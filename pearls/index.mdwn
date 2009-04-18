@@ -1,1 +1,2 @@
-[[!inline pages="*" archive="yes" template="titlepage" sort="title"]]
+[[!inline pages="*" archive="yes" template="titlepage" sort="title" feeds="no"]]
+[[!inline pages="*" archive="yes" template="titlepage" feedonly="yes"]]
