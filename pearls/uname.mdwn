@@ -1,0 +1,18 @@
+Displays information about the operating system and its architecture.
+
+* `uname -a` - Shows the kernel name, hostname, kernel release and version,
+machine's hardware name, processor type, hardware platform, and operating
+system. For example, on my netbook this command displays: "Linux a1
+2.6.28-11-generic #42-Ubuntu SMP Fri Apr 17 01:57:59 UTC 2009 i686 GNU/Linux".
+
+The other arguments that `uname` accepts restrict the output to the supplied
+fields.
+
+* `uname -s` - Kernel name.
+* `uname -n` - Network node hostname.
+* `uname -r` - Kernel release.
+* `uname -v` - Kernel version.
+* `uname -m` - Machine hardware name.
+* `uname -p` - Processor type or 'unknown'.
+* `uname -i` - Hardware platform or 'unknown'.
+* `uname -o` - Operating system.
