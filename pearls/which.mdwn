@@ -1,0 +1,17 @@
+Displays the pathname for a command.
+
+* `which command` - Displays the absolute pathname to the program that
+`command` would cause to be invoked.
+* `which -a command` - As above, but displays all pathnames.
+* `which command1 command2` - When invoked with multiple arguments, the
+pathname for each command is listed, one per line.
+
+When you enter a command in the terminal your shell executes a corresponding
+program. For instance, `ls` may execute `/bin/ls`. This pathname is derived
+from your 'search path' (the value of $PATH) and the command name. For each
+directory in $PATH the shell determines whether $PATH/`command` exists and is
+executable. The first such pathname it finds is the one executed. `which`
+simply displays this pathname rather than executing it. 
+
+This command is useful to discover which program a command is running when it
+doesn't act as you'd expect. 
