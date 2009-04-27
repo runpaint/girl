@@ -10,13 +10,14 @@ end
 module GirlDoc
   class PearlNotFound < StandardError
   end  
-  VERSION = '0.0.1'
   class Girl
     attr_reader :pearls, :formatted
+    EXECUTABLE = File.basename($0)
+    USAGE = "Usage: #{EXECUTABLE} <pearl>\ne.g. #{EXECUTABLE} ls"
     def initialize(*args)
       @pearls = args.flatten.compact.delete_if{|a| a =~ /^\s*$/}
       @pearls.map!{|a| Pearl.new(a)}.uniq!
-      raise ArgumentError unless @pearls.size > 0
+      self.show_usage unless @pearls.size > 0
     end
     def pearl
       @pearls.first
@@ -28,6 +29,10 @@ module GirlDoc
         r.render
       end  
     end
+    def show_usage
+      puts USAGE
+      exit(1)
+    end  
   end
   class Pearl
     attr_reader :name
