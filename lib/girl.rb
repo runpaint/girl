@@ -129,10 +129,10 @@ EOM
         @pearl.text.split("\n").size < terminal.rows ? false : true
       rescue
         false
-      end  
+      end
+      tty = $stdout.tty?
       page do 
-        fclass = self.pick_pager.match(/less$/) || !$stdout.tty? ? 
-          'PlainText' : 'ANSI'
+        fclass = self.pick_pager.match(/less$/) || !tty ? 'PlainText' : 'ANSI'
         formatter = Formatter.const_get(fclass).new( @pearl )
         puts formatter.format
       end  
