@@ -1,0 +1,4 @@
+#!/usr/bin/ruby
+require 'girl'
+include GirlDoc
+Girl.new(ARGV).show
