@@ -122,7 +122,8 @@ EOM
       terminal = TerminalSize.new
       @page = @pearl.text.split("\n").size < terminal.rows ? false : true
       page do 
-        fclass = self.pick_pager.match(/less$/) ? 'PlainText' : 'ANSI'
+        fclass = self.pick_pager.match(/less$/) || !$stdout.tty? ? 
+          'PlainText' : 'ANSI'
         formatter = Formatter.const_get(fclass).new( @pearl )
         puts formatter.format
       end  
