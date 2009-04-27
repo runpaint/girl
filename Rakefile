@@ -7,9 +7,11 @@ $hoe = Hoe.new('girl', GirlDoc::VERSION) do |p|
   p.developer('Run Paint Run Run', 'runrun@runpaint.org')
   p.changes              = p.paragraphs_of("CHANGELOG", 0..1).join("\n\n")
   p.rubyforge_name       = p.name # TODO this is default value
-  # p.extra_deps         = [
-  #   ['activesupport','>= 2.0.2'],
-  # ]
+   p.extra_deps         = [
+     ['runpaint-terminal-size','>= 0.0.1'],
+     ['text-highlight'         ,'>=1.0.2'],
+
+   ]
   p.extra_dev_deps = [
     ['newgem', ">= #{::Newgem::VERSION}"]
   ]
