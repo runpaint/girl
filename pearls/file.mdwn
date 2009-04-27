@@ -1,0 +1,15 @@
+Shows the type, format, and language of given files.
+
+* `file f` - Tries to display the following information about file `f`:
+ * Format - for example: _Bourne-Again shell script_ or _PDF document, version
+1.4_. 
+ * Language - for example, _English_ .
+ * Type - for example: _text_, _executable_, or _data_.
+ * Full filename, e.g._/home/maria/Documents/notes.txt_. (This can be omitted
+ with `-b`).
+* `file -b f` - As above, but omits the filename in the output.
+* `file -z f` - As `file f`, but if `f` is compressed, tries to display
+information about `f`'s contents as well. For example: _ASCII text (bzip2
+compressed data, block size = 900k)_.
+* `file -i f` - Shows the MIME type and, if possible, encoding of file `f`, e.g.
+_application/pdf_ or _application/x-ruby_ or _text/plain charset=us-ascii_.
