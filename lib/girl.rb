@@ -10,6 +10,17 @@ end
 module GirlDoc
   class PearlNotFound < StandardError
   end  
+  class NoPearlsDirectoryError < StandardError
+    def initialize
+      super <<EOM
+ERROR: You have a ~/.girl directory, but no ~/.girl/pearls directory.
+If ~/.girl is not a Girl data directory, please rename it, then execute
+this command again - it will be recreated and initialised. If it is a 
+Girl data diretory that has somehow become corrupted, please delete it 
+and execute this command again.
+EOM
+    end
+  end
   class Girl
     attr_reader :pearls, :formatted
     EXECUTABLE = File.basename($0)
@@ -153,6 +164,12 @@ module GirlDoc
     REPO_URL = 'git://github.com/runpaint/girl.git'
     def path
       return USER_PEARLS_DIR if File.directory? USER_PEARLS_DIR
+      begin
+        raise NoPearlsDirectoryError if File.directory? USER_DATA_DIR
+      rescue NoPearlsDirectoryError => e
+        $stderr.puts e.message
+        exit(1)
+      end  
       self.git_clone ? USER_PEARLS_DIR : nil
     end
     def git_clone
