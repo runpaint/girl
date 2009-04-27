@@ -34,16 +34,21 @@ EOM
       @pearls.first
     end  
     def show
+      unknown = @pearls.reject{|p| p.exists?}.map{|p| p.name}
       @pearls.each do |pearl|
         next unless pearl.exists?
         r = Renderer::Pager.new(pearl)
         r.render
-      end  
+      end
+      self.show_man(unknown) unless unknown.empty?  
     end
     def show_usage
       puts USAGE
       exit(1)
-    end  
+    end
+    def show_man(names)
+      exec("man #{names.join(' ')}")
+    end       
   end
   class Pearl
     attr_reader :name
