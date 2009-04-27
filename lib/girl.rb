@@ -93,7 +93,7 @@ module GirlDoc
     end  
   end    
   class Renderer::Pager < Renderer 
-    PAGERS = %w{pager most more less}
+    PAGERS = %w{most pager more less}
     @use_stdout = true
     
     def initialize( pearl )
