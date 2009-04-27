@@ -9,7 +9,7 @@ begin
     gem.email = "runrun@runpaint.org"
     gem.homepage = "http://github.com/runpaint/girl"
     gem.authors = ["Run Paint Run Run"]
-    gem.add_dependency(%q<runpaint-terminal-size>, [">=0.0.1"])
+    gem.add_dependency(%q<runpaint-terminal-size>, [">=0.1.1"])
     gem.add_dependency(%q<text-highlight>, [">=1.0.2"])
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end

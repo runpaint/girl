@@ -119,8 +119,12 @@ EOM
       require 'rubygems'
       require 'terminal/size'
       @use_stdout = false
-      terminal = TerminalSize.new
-      @page = @pearl.text.split("\n").size < terminal.rows ? false : true
+      @page = begin  
+        terminal = TerminalSize.new
+        @pearl.text.split("\n").size < terminal.rows ? false : true
+      rescue
+        false
+      end  
       page do 
         fclass = self.pick_pager.match(/less$/) || !$stdout.tty? ? 
           'PlainText' : 'ANSI'
