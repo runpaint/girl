@@ -32,6 +32,14 @@ EOM
       exit(1)
     end
   end
+  class GitError < RuntimeError
+    def initialize
+      $stderr.puts <<EOM
+ERROR: Git could not clone the Girl repository to ~/.girl.
+EOM
+      exit(1)
+    end
+  end
   class Girl
     attr_reader :pearls, :formatted
     EXECUTABLE = File.basename($0)
@@ -195,10 +203,10 @@ EOM
         $stderr.puts e.message
         exit(1)
       end  
-      self.git_clone ? USER_PEARLS_DIR : nil
+      self.git_clone && USER_PEARLS_DIR
     end
     def git_clone
-      system("git clone #{REPO_URL} #{USER_DATA_DIR}")
+      system("git clone #{REPO_URL} #{USER_DATA_DIR}") or raise GitError
     end
   end  
 end
