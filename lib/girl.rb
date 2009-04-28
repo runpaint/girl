@@ -21,6 +21,17 @@ and execute this command again.
 EOM
     end
   end
+  class PearlReadError < StandardError
+    def initialize(path)
+      $stderr.puts <<EOM
+ERROR: The pearl at #{path} could not be read. 
+Please check the permissions of that file/directory and execute this
+command again. If you still get this error message, delete ~/.girl; 
+the next time `girl` is run the directory will be recreated.
+EOM
+      exit(1)
+    end
+  end
   class Girl
     attr_reader :pearls, :formatted
     EXECUTABLE = File.basename($0)
@@ -73,7 +84,11 @@ EOM
     end
     def text
       return nil unless self.exists?
-      File.open(self.filename, 'r') {|f| return f.read}
+      begin
+        File.open(self.filename, 'r').read
+      rescue
+        raise PearlReadError, self.filename
+      end  
     end  
   end
   class Formatter
