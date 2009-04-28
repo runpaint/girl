@@ -1,0 +1,28 @@
+Changes the working directory.
+
+* `cd directory` - Changes the current working directory to `directory`.
+* `cd` - Changes to your home directory.
+* `cd -` - Changes to the last directory, i.e. your previous working
+directory.
+* `cd -P directory` - Changes to `directory` but refuses to follow symbolic
+links.
+
+## CDPATH
+
+`cd` can use the _$CDPATH_ variable to determine where to find the directory
+given. Its value is a colon-separated list of directories in which to search
+for relative directory paths.
+
+By default `cd` just looks in the current directory, so `cd dir` changes
+the working directory to the `dir` subdirectory of the current directory. If
+`dir` doesn't exist `cd` displays _No such file or directory_. If _$CDPATH_ is
+set, `cd` looks in each of the named directories in turn to find the given
+directory.
+
+For example,
+
+    export CDPATH=.:~ # Search the current directory then my home directory
+    cd .vim # Looks for a .vim subdirectory of the current directory. If none
+            # is found, look for it as a subdirectory of `~/`. If that fails,
+            # exit with an error message.
+
